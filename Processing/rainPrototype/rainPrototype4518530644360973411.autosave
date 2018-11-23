@@ -1,0 +1,368 @@
+import org.openkinect.freenect.*;
+import org.openkinect.processing.*;
+
+
+OPC opc;
+PImage image;
+float xMap;
+float yMap;
+float v2XMapped;
+PVector v2;
+Drop[] drops = new Drop[400];
+
+
+
+// The kinect stuff is happening in another class
+KinectTracker tracker;
+Kinect kinect;
+
+void setup()
+{
+  size(640, 520);
+  kinect = new Kinect(this);
+  tracker = new KinectTracker();
+
+  image = loadImage("abstract.jpg");
+
+  // for loop to make each index of array drops[] an instance of the Drop class 
+  for (int i = 0; i < drops.length; i++) {
+    drops[i] = new Drop();
+  }
+
+  // Connect to  local server
+  opc = new OPC(this, "127.0.0.1", 7890);
+
+  // Map one 64-LED strip to the center of the window
+  opc.ledStrip(0, 64, width/2, height/10*9, width / 90.0, 0, false);
+  opc.ledStrip(64, 64, 206, height/10*5+14, width / 90.0, radians(120), true);
+  opc.ledStrip(128, 64, 431, 275, width / 90.0, radians(60), true);
+}
+
+void draw()
+{
+  // Run the tracking analysis
+  tracker.track();
+  // Show the image
+
+  // Let's draw the raw location
+  PVector v1 = tracker.getPos();
+  fill(50, 100, 250, 200);
+  noStroke();
+  ellipse(v1.x, v1.y, 20, 20);
+
+  // Let's draw the "lerped" location
+  v2 = tracker.getLerpedPos();
+  fill(100, 250, 50, 200);
+  noStroke();
+  ellipse(v2.x, v2.y, 20, 20);
+
+  // Display some info
+  int t = tracker.getThreshold();
+  fill(0);
+  text("threshold: " + t + "    " +  "framerate: " + int(frameRate) + "    " + 
+    "UP increase threshold, DOWN decrease threshold", 10, 500);
+
+
+  // mapping mouseX and mouseY to other values
+  yMap =  map(mouseY, height/4, height, 0, 350);
+  xMap =  map(mouseX, 0, width, 0, height/2);
+  v2XMapped = map(v2.x, 0, 640, 0, 255);
+  float v2YMapped = map(v2.y, 0, 520, 0, 255);
+  // stroke and fill - fill follows the mouse mapped
+  noStroke(); 
+  fill(0, 0, 0);
+
+  // background rect
+  rect(0, 0, width, height);
+
+  // rain function called
+  FlockingGame g;
+ 
+void setup(){
+  size(600,600,P2D);
+  frameRate(60);
+  background(255);
+}
+ 
+void draw(){
+  //fill(255,125);
+  //rect(0,0,800,800);
+  background(0);
+  g.update();
+}
+ 
+class FlockingGame{
+  ArrayList birds;
+  int num;
+  int time;
+  Target t;
+  FlockingGame(int inNum){
+    num = inNum;
+    t = new Target();
+    birds = new ArrayList();
+    for(int i=0; i<num; i++){
+      birds.add(new Bird());
+    }
+  }
+  void update(){
+    time++;
+    t.update();
+    for(int i = 0; i<birds.size(); i++){
+      Bird b = (Bird) birds.get(i);
+      b.findNeighbors(birds);
+      b.update(t.getPos());
+      float d = b.pos.dist(t.pos);
+    }
+  }
+  void generate(){
+ 
+  }
+}
+ 
+///////////////////////////////////////////////////////////
+//CLASS BIRD
+///////////////////////////////////////////////////////////
+class Bird {
+  PVector pos; 
+  PVector vel; //velocity
+  PVector tar;
+  PVector desiredHeading;
+  BirdAI ai;
+  float tsa; //turn step angle
+  ArrayList neighbors;
+  float seeDist;
+  Bird() {
+    pos = new PVector();
+    tar = new PVector();
+    pos.x = random(0, 800);
+    pos.y = random(0, 800);
+    vel=PVector.random2D();
+    vel.mult(2);
+    desiredHeading = new PVector();
+    ai = new BirdAI();
+    tsa = PI/50;
+    seeDist = 50;
+    neighbors = new ArrayList();
+  }
+  ////////////////////////////////////////////////////////////
+  //step 1: collect information (find neighbors)
+  ////////////////////////////////////////////////////////////
+  void findNeighbors(ArrayList allBirds) {
+    neighbors = new ArrayList(); //clean ArrayList
+    PVector otherPos = new PVector();
+    for (int i = 0; i< allBirds.size(); i++) {
+      Bird b = (Bird) allBirds.get(i);
+      if (this != b) {//do not compare with self
+        otherPos.set(b.pos);
+        float dist = pos.dist(otherPos);
+        if (dist < seeDist) {
+          neighbors.add(b);
+        }
+      }
+    }
+  }
+ 
+  /////////////////////////////////////////////////////////////
+  //step 2: take action
+  /////////////////////////////////////////////////////////////
+  void update(PVector inTar) {
+    tar.set(inTar);
+    //ai.update(pos, tar, neighbors);
+    desiredHeading.set(ai.update(pos, tar, neighbors));
+    float r = tsa * sign();
+    vel.rotate(r);
+    collisions();
+    //if (pos.x>600){if (vel.x>0) vel.x*= -1;}
+    pos.add(vel);
+    render();
+  }
+ 
+  int sign() {
+    int a = -(int) Math.signum(vel.y*desiredHeading.x - vel.x*desiredHeading.y);
+    return a;
+  }
+ 
+  void collisions(){
+    if ((pos.x>600)&&(vel.x>0)) vel.x *=-1;
+    if ((pos.y>600)&&(vel.y>0)) vel.y *=-1;
+    if ((pos.x<0)&&(vel.x<0)) vel.x *=-1;
+    if ((pos.y<0)&&(vel.y<0)) vel.y *=-1;
+  }
+ 
+  void render() {
+    fill(0,255,0);
+    float s = 1;
+    noStroke();
+    pushMatrix();
+    translate(pos.x, pos.y);
+    rotate(vel.heading()+PI/2);
+    beginShape();
+    vertex(-s, 0);
+    vertex(0, -4*s);
+    vertex(s, 0);
+    endShape(CLOSE);
+    popMatrix();
+  }
+}
+ 
+class BirdAI{
+  ArrayList neighbors;
+  Bird me;
+  PVector pos; PVector tar;
+  PVector avoidHeading; float avoidFactor;
+  PVector copyHeading; float copyFactor;
+  PVector centerHeading; float centerFactor;
+  PVector targetHeading; float targetFactor;
+  PVector desiredHeading;
+  //Behaviour bhv;
+ 
+  BirdAI(){
+    pos = new PVector();
+    tar = new PVector();
+    avoidHeading = new PVector();
+    copyHeading = new PVector();
+    centerHeading = new PVector();
+    targetHeading = new PVector();
+    desiredHeading = new PVector();
+    //bhv = new Behaviour();
+  }
+  PVector update(PVector inPos, PVector inTar, ArrayList inNeighbors){
+    neighbors = inNeighbors;
+    pos.set(inPos);
+    tar.set(inTar);
+    //calculate vectors
+    avoidHeading.set(avoidV());          //calculate avoid vector
+    copyHeading.set(copyV());            //calculate copy vector
+    centerHeading.set(centerV());        //calculate center vector
+    targetHeading.set(targetV());        //calculate target vector
+    //apply weights
+    avoidHeading.mult(1);                //apply heading weight
+    copyHeading.mult(4);                 //apply heading weight
+    centerHeading.mult(1);               //apply heading weight
+    targetHeading.mult(5);               //apply heading weight
+    //add them to find the desired heading
+    desiredHeading.set(avoidHeading);
+    desiredHeading.add(copyHeading);
+    desiredHeading.add(centerHeading);
+    desiredHeading.add(targetHeading);
+    return desiredHeading;
+  }
+  PVector avoidV(){
+    PVector aV = new PVector();
+    PVector tow = new PVector();
+    for(int i = 0; i < neighbors.size(); i++){
+      Bird n = (Bird) neighbors.get(i);
+      tow.set(pos); tow.sub(n.pos);
+      float d = tow.mag();
+      tow.normalize();
+      tow.mult(20/d);
+      aV.add(tow);
+    }
+    //aV.div((neighbors.size()+1)/2);
+    return aV;
+  }
+ 
+  PVector copyV(){
+    PVector cpV = new PVector(0,0,0);
+    for(int i = 0; i < neighbors.size(); i++){
+      Bird n = (Bird) neighbors.get(i);
+      cpV.add(n.vel);
+    }
+    cpV.div(neighbors.size());
+    return cpV;
+  }
+ 
+  PVector centerV(){
+    PVector cnV = new PVector(0,0,0);
+    float d = 0;
+    for(int i = 0; i < neighbors.size(); i++){
+      Bird b = (Bird) neighbors.get(i);
+      d += pos.dist(b.pos);
+      cnV.add(b.pos);
+    }
+    cnV.div(neighbors.size());
+    PVector toC = new PVector();
+    cnV.sub(pos);
+    //cnV.mult(d/1000);
+    //cnV.normalize();
+    return cnV;
+  }
+ 
+  PVector targetV(){
+    PVector tV = new PVector();
+    tV.set(tar);
+    tV.sub(pos);
+    float d = pos.dist(tV);
+    d = pow((d/2000),2);
+    tV.mult(d);
+    tV.normalize();
+    tV.mult(mouseCheck());
+    return tV;
+  }
+ 
+  int mouseCheck(){
+    if (mousePressed) return -1;
+    else return 1;
+  }
+}
+ 
+class Target{
+  PVector pos;
+  Target(){
+    pos = new PVector(300,300,0);
+  }
+  void update(){
+    pos.x = mouseX;
+    pos.y = mouseY;
+    pos.z = 0;
+    //show();
+  }
+  PVector getPos(){
+    return pos;
+  }
+  void show(){
+ 
+  }
+}rain();
+  //tint(255, 255, 255, v2YMapped-50);
+  tint(150, 100, 255, 100+yMap);
+  imScroll();
+  // fill black, no stroke
+  fill(0);
+  noStroke();  
+
+  // rectangles to narrow the rain
+  // rect(0, 0, xMap, height);
+  // rect(width-xMap, 0, width, height);
+  fill(255);
+  //ellipse(mouseX,mouseY,100,100);
+  //tracker.display();
+}
+
+void rain() {
+
+  for (int i = 0; i < drops.length; i++) {
+    drops[i].fall();
+    drops[i].show();
+  }
+}
+
+void imScroll() {
+  float speed = 0.03;
+  float y = (millis() * -speed) % image.height;
+  image(image, 0, y, width, image.height);
+  image(image, 0, y + image.height, width, image.height);
+}
+
+void keyPressed() {
+  int t = tracker.getThreshold();
+  if (key == CODED) {
+    if (keyCode == UP) {
+      t+=5;
+      tracker.setThreshold(t);
+    } else if (keyCode == DOWN) {
+      t-=5;
+      tracker.setThreshold(t);
+    }
+  }
+}
