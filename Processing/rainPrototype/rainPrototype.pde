@@ -9,7 +9,7 @@ float xMap;
 float yMap;
 float rectAreaMap;
 PVector v2;
-Drop[] drops = new Drop[10];
+Drop[] drops = new Drop[90];
 
 
 
@@ -42,8 +42,8 @@ void setup()
 
   // Map one 64-LED strip to the center of the window
   opc.ledStrip(0, 64, width/2, height/10*9, width / 90.0, 0, false);
-  opc.ledStrip(64, 64, 206, height/10*5+14, width / 90.0, radians(120), false);
-  opc.ledStrip(128, 64, 431, 275, width / 90.0, radians(60), false);
+  opc.ledStrip(64, 64, 206, height/10*5+14, width / 90.0, radians(120), true);
+  opc.ledStrip(128, 64, 431, 275, width / 90.0, radians(60), true);
     background(0);
 
 }
@@ -51,7 +51,6 @@ void setup()
 
 void draw()
 {
-
   // Run the tracking analysis
   tracker.track();
   // Show the image
@@ -99,6 +98,11 @@ void draw()
   // rect(0, 0, xMap, height);
   // rect(width-xMap, 0, width, height);
       g.update();
+      
+      //TEST ELIPSE FOR LED STRIP PLACEMENT
+      //fill(255,0,0);
+      //ellipse(mouseX, mouseY, 200, 200);
+
 
 }
 
@@ -109,10 +113,10 @@ void rain() {
     drops[i].fall();
     // if mouse is pressed, stroke colour changes
     if (mousePressed) {
-      fill(rectAreaMap, 100, i*30);
+      fill(rectAreaMap, 100, i*2);
       noStroke();
      } else {
-      fill(rectAreaMap, 100, i*30);
+      fill(rectAreaMap, 100, i*2);
       noStroke();
     }
     drops[i].show(7000/(rectAreaMap+20));

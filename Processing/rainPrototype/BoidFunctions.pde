@@ -27,7 +27,7 @@ class FlockingGame{
     
    
     noFill();
-    stroke(204, 102, 0);
+    stroke(204, 102, 0); //Bounding box visibility, remove last digit to see it!
     x1= getMinX(birds);
     x2 = getMinY(birds);
     rectWidth= getMaxX(birds)-x1;
@@ -99,6 +99,7 @@ class Bird {
   ArrayList neighbors;
   float seeDist;
   float r;
+  float acceleration;
   float maxforce;    // Maximum steering force
   float maxspeed;    // Maximum speed
   
@@ -108,7 +109,7 @@ class Bird {
     pos.x = random(200, 500);
     pos.y = random(200, 500);
     vel=PVector.random2D();
-    vel.mult(3); //SPEED!
+    vel.mult(5); //SPEED!
     desiredHeading = new PVector();
     ai = new BirdAI();
     tsa = PI/20; //angle at which they turn, the larger this number the more over the place they will be
@@ -139,6 +140,7 @@ class Bird {
   //step 2: take action
   /////////////////////////////////////////////////////////////
   void update(PVector inTar) {
+     render();
     tar.set(inTar);
     //ai.update(pos, tar, neighbors);
     desiredHeading.set(ai.update(pos, tar, neighbors));
@@ -147,7 +149,7 @@ class Bird {
     collisions();
     //if (pos.x>600){if (vel.x>0) vel.x*= -1;}
     pos.add(vel);
-    render();
+   
   }
  
   int sign() {
@@ -163,7 +165,7 @@ class Bird {
   }
  
   void render() {
-    fill(0,255,0);
+    fill(0,255,0); //boid here, change last digit to see the boid!
     float s = 1;
     noStroke();
     pushMatrix();
