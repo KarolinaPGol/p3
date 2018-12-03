@@ -98,18 +98,24 @@ class Bird {
   float tsa; //turn step angle
   ArrayList neighbors;
   float seeDist;
+  float r;
+  float maxforce;    // Maximum steering force
+  float maxspeed;    // Maximum speed
+  
   Bird() {
     pos = new PVector();
     tar = new PVector();
     pos.x = random(200, 500);
     pos.y = random(200, 500);
     vel=PVector.random2D();
-    vel.mult(2);
+    vel.mult(4); //SPEED!
     desiredHeading = new PVector();
     ai = new BirdAI();
-    tsa = PI/50;
-    seeDist = 50;
+    tsa = PI/20; //angle at which they turn, the larger this number the more over the place they will be
+    seeDist = 50; //lower this if we thing bbox is too big but if its too low we might have lonely birds
     neighbors = new ArrayList();
+    maxspeed = 100;
+    maxforce = 0.3;
   }
   ////////////////////////////////////////////////////////////
   //step 1: collect information (find neighbors)
@@ -170,6 +176,81 @@ class Bird {
     endShape(CLOSE);
     popMatrix();
   }
+    PVector seek(PVector target) {
+    PVector desired = PVector.sub(target, pos);  // A vector pointing from the position to the target
+    // Scale to maximum speed
+    desired.normalize();
+    desired.mult(maxspeed);
+
+    // Above two lines of code below could be condensed with new PVector setMag() method
+    // Not using this method until Processing.js catches up
+    // desired.setMag(maxspeed);
+
+    // Steering = Desired minus Velocity
+    PVector steer = PVector.sub(desired, vel);
+    steer.limit(maxforce);  // Limit to maximum steering force
+    return steer;
+  }
+  
+   // Separation
+  // Method checks for nearby boids and steers away
+  PVector separate (ArrayList<BirdAI> boids) {
+    float desiredseparation = 10;
+    PVector steer = new PVector(0, 0, 0);
+    int count = 0;
+    // For every boid in the system, check if it's too close
+    for (BirdAI other : boids) {
+      float d = PVector.dist(pos, other.pos);
+      // If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
+      if ((d > 0) && (d < desiredseparation)) {
+        // Calculate vector pointing away from neighbor
+        PVector diff = PVector.sub(pos, other.pos);
+        diff.normalize();
+        diff.div(d);        // Weight by distance
+        steer.add(diff);
+        count++;            // Keep track of how many
+      }
+    }
+    // Average -- divide by how many
+    if (count > 0) {
+      steer.div((float)count);
+    }
+
+    // As long as the vector is greater than 0
+    if (steer.mag() > 0) {
+      // First two lines of code below could be condensed with new PVector setMag() method
+      // Not using this method until Processing.js catches up
+      // steer.setMag(maxspeed);
+
+      // Implement Reynolds: Steering = Desired - Velocity
+      steer.normalize();
+      steer.mult(maxspeed);
+      steer.sub(vel);
+      steer.limit(maxforce);
+    }
+    return steer;
+  }
+     // Cohesion
+  // For the average position (i.e. center) of all nearby boids, calculate steering vector towards that position
+  PVector cohesion (ArrayList<BirdAI> boids) {
+    float neighbordist = 1;
+    PVector sum = new PVector(0, 0);   // Start with empty vector to accumulate all positions
+    int count = 0;
+    for (BirdAI other : boids) {
+      float d = PVector.dist(pos, other.pos);
+      if ((d > 0) && (d < neighbordist)) {
+        sum.add(other.pos); // Add position
+        count++;
+      }
+    }
+    if (count > 0) {
+      sum.div(count);
+      return seek(sum);  // Steer towards the position
+    } 
+    else {
+      return new PVector(0, 0);
+    }
+  }
 }
  
 class BirdAI{
@@ -222,7 +303,7 @@ class BirdAI{
       tow.set(pos); tow.sub(n.pos);
       float d = tow.mag();
       tow.normalize();
-      tow.mult(20/d);
+      tow.mult(40/d); // Change to increase the distance between birds
       aV.add(tow);
     }
     //aV.div((neighbors.size()+1)/2);
@@ -260,12 +341,13 @@ class BirdAI{
     tV.set(tar);
     tV.sub(pos);
     float d = pos.dist(tV);
-    d = pow((d/2000),2);
+    d = pow((d/20),2);
     tV.mult(d);
     tV.normalize();
     tV.mult(mouseCheck());
     return tV;
   }
+ 
  
   int mouseCheck(){
     if (mousePressed) return -1;

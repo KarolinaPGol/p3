@@ -31,7 +31,7 @@ void setup()
     
     // setup flocking boid
     
-      g = new FlockingGame(800); //creating 1000 birds
+      g = new FlockingGame(400); //creating 1000 birds
   background(255);
 
   }
@@ -45,7 +45,6 @@ void setup()
   opc.ledStrip(64, 64, 206, height/10*5+14, width / 90.0, radians(120), false);
   opc.ledStrip(128, 64, 431, 275, width / 90.0, radians(60), false);
     background(0);
-
 
 }
 
