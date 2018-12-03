@@ -1,7 +1,7 @@
 class KinectTracker {
 
   // Depth threshold
-  int threshold = 745;
+  int threshold = 840;
 
   // Raw location
   PVector loc;
@@ -11,10 +11,10 @@ class KinectTracker {
 
   // Depth data
   int[] depth;
-  
+
   // What we'll show the user
   PImage display;
-   
+
   KinectTracker() {
     // This is an awkard use of a global variable here
     // But doing it this way for simplicity
@@ -40,7 +40,7 @@ class KinectTracker {
 
     for (int x = 0; x < kinect.width; x++) {
       for (int y = 0; y < kinect.height; y++) {
-        
+
         int offset =  x + y*kinect.width;
         // Grabbing the raw depth
         int rawDepth = depth[offset];
@@ -55,7 +55,7 @@ class KinectTracker {
     }
     // As long as we found something
     if (count != 0) {
-      loc = new PVector(sumX/count, sumY/count);
+      loc = new PVector(sumX, sumY);
     }
 
     // Interpolating the location, doing it arbitrarily for now
@@ -88,11 +88,12 @@ class KinectTracker {
         int rawDepth = depth[offset];
         int pix = x + y * display.width;
         if (rawDepth < threshold) {
-          // A red color instead
-          display.pixels[pix] = color(150, 50, 50);
+          // A blue color instead
+          display.pixels[pix] = color(0, 0, 255);
         } else {
           display.pixels[pix] = img.pixels[offset];
         }
+
       }
     }
     display.updatePixels();
