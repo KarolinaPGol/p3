@@ -25,7 +25,7 @@ class FlockingGame{
       
     }
     
-   
+   //---------BOUNDING BOX-------- 
     noFill();
     stroke(204, 102, 0);
     x1= getMinX(birds);
@@ -36,50 +36,86 @@ class FlockingGame{
     rectArea = rectWidth*rectHeight;
     rectRatio = rectWidth/rectHeight;
     println("rect area: " + rectArea);
+    //----------------------------
   }
   // Method for getting the maximum value
    float getMaxX(ArrayList inputArray){    
    float maxValue = 0; 
+   float[] array = new float[inputArray.size()];
     for(int i=0;i < inputArray.size();i++){ 
       Bird b = (Bird) birds.get(i);
-      if(b.pos.x > maxValue){ 
-         maxValue = b.pos.x; 
-      } 
-    } 
-    return maxValue; 
+      
+      if(b.pos.x>maxValue){
+        maxValue = b.pos.x;
+        array[i] = b.pos.x;
+      }   
+    } System.out.print("[");
+    Arrays.sort(array);
+    for(int i=0; i<array.length; i++){
+      if(array[i]!=0)
+      System.out.print(array[i]+ ", ");
+    }
+    System.out.println("]");
+    for(int k=7; k>0; k--){
+      if(array[array.length-1-k]!=0)
+        return array[array.length-1-k];
+      else{
+      }
+    }
+    return maxValue;
+     
   }
   float getMaxY(ArrayList inputArray){    
    float maxValue = 0; 
+   float[] array = new float[inputArray.size()];
+   
     for(int i=0;i < inputArray.size();i++){ 
       Bird b = (Bird) birds.get(i);
       if(b.pos.y > maxValue){ 
          maxValue = b.pos.y; 
+         array[i] = b.pos.y;
       } 
     } 
-    return maxValue; 
+    Arrays.sort(array);
+    return array[array.length-1-5];
+    //return maxValue;
   }
  
   // Method for getting the minimum value
   float getMinX(ArrayList inputArray){ 
     float minValue = width; 
+    float[] array = new float[inputArray.size()];
     for(int i=0;i<inputArray.size();i++){ 
       Bird b = (Bird) birds.get(i);
       if(b.pos.x < minValue){ 
         minValue = b.pos.x; 
+        array[i] = b.pos.x;
       } 
+    }
+    Arrays.sort(array);
+    for(int i=0; i<array.length; i++){
+      if(array[i]!=0)
+        return array[i]; 
     }
     return minValue;
    } 
     
    float getMinY(ArrayList inputArray){ 
     float minValue = width; 
+    float[] array = new float[inputArray.size()];
     for(int i=0;i<inputArray.size();i++){ 
       Bird b = (Bird) birds.get(i);
       if(b.pos.y < minValue){ 
         minValue = b.pos.y; 
+        array[i] = b.pos.y;
       } 
     } 
-    return minValue; 
+    Arrays.sort(array);
+    for(int i=0; i<array.length; i++){
+      if(array[i]!=0)
+        return array[i]; 
+    }
+    return minValue;
   } 
   void generate(){
  
