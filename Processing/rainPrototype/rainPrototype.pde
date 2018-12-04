@@ -2,6 +2,7 @@ import org.openkinect.freenect.*;
 import org.openkinect.processing.*;
 
 FlockingGame g;
+
 OPC opc;
 PImage im;
 float xMap;
