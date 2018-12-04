@@ -47,7 +47,7 @@ void getAverageColor() {
   }
   b /= tracker.display.pixels.length;
   float m = map(b, 134, 138, 0, 255);
-println(m);
+//println(m);
   fill(m);
   rect(0,0,width,30);
   

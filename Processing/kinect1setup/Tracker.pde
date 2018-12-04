@@ -73,6 +73,12 @@ class KinectTracker {
 
   void display() {
     PImage img = kinect.getDepthImage();
+    float maxValue = 0;
+    float minValue = kinect.width*kinect.height ;
+    float maxValueX = 0;
+    float maxValueY = 0;
+    float minValueX = kinect.width;
+    float minValueY = kinect.height;
 
     // Being overly cautious here
     if (depth == null || img == null) return;
@@ -80,26 +86,41 @@ class KinectTracker {
     // Going to rewrite the depth image to show which pixels are in threshold
     // A lot of this is redundant, but this is just for demonstration purposes
     display.loadPixels();
-    for (int x = 0; x < kinect.width; x++) {
+    for (int x = 0; x < kinect.width; x++) { //goes through all the window
       for (int y = 0; y < kinect.height; y++) {
 
-        int offset = x + y * kinect.width;
+        int offset = x + y * kinect.width; 
         // Raw depth
-        int rawDepth = depth[offset];
-        int pix = x + y * display.width;
+        int rawDepth = depth[offset]; 
+        int pix = x + y * display.width; //ok
         if (rawDepth < threshold) {
           // A blue color instead
-          display.pixels[pix] = color(0, 0, 255);
+          display.pixels[pix] = color(0, 0, 255); //set correct pixels to blue
+          
+          if(pix > maxValue){
+             maxValue = pix;
+             maxValueX = x;
+             maxValueY = y;
+          }
+          
+          if(pix < minValue){
+            minValue = pix;
+            minValueX = x;
+            minValueY = y;
+          }
+          
         } else {
           display.pixels[pix] = img.pixels[offset];
         }
 
+       // if(display.pixels[pix] == color(0, 0, 255));
       }
     }
     display.updatePixels();
 
     // Draw the image
     image(display, 0, 0);
+    rect(minValueX, minValueY, maxValueX-minValueX, maxValueY-minValueY);
   }
 
   int getThreshold() {
