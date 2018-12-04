@@ -26,11 +26,7 @@ class FlockingGame {
 
 
     noFill();
-<<<<<<< HEAD
     stroke(204, 102, 0, 0); //Bounding box visibility, remove last digit to see it!
-=======
-    stroke(204, 102, 0);
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
     x1= getMinX(birds);
     x2 = getMinY(birds);
     rectWidth= getMaxX(birds)-x1;
@@ -100,6 +96,7 @@ class Bird {
   ArrayList neighbors;
   float seeDist;
   float r;
+  float acceleration;
   float maxforce;    // Maximum steering force
   float maxspeed;    // Maximum speed
 
@@ -109,7 +106,7 @@ class Bird {
     pos.x = width/2;
     pos.y = height/2;
     vel=PVector.random2D();
-    vel.mult(3); //SPEED!
+    vel.mult(5); //SPEED!
     desiredHeading = new PVector();
     ai = new BirdAI();
     tsa = PI/5; //angle at which they turn, the larger this number the more over the place they will be
@@ -140,10 +137,7 @@ class Bird {
   //step 2: take action
   /////////////////////////////////////////////////////////////
   void update(PVector inTar) {
-<<<<<<< HEAD
     render();
-=======
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
     tar.set(inTar);
     //ai.update(pos, tar, neighbors);
     desiredHeading.set(ai.update(pos, tar, neighbors));
@@ -152,10 +146,6 @@ class Bird {
     collisions();
     //if (pos.x>600){if (vel.x>0) vel.x*= -1;}
     pos.add(vel);
-<<<<<<< HEAD
-=======
-    render();
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
   }
 
   int sign() {
@@ -171,11 +161,7 @@ class Bird {
   }
 
   void render() {
-<<<<<<< HEAD
     fill(0, 255, 0, 0); //boid here, change last digit to see the boid!
-=======
-    fill(0,255,0);
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
     float s = 1;
     noStroke();
     pushMatrix();

@@ -9,11 +9,7 @@ float yMap;
 float rectAreaMap;
   float m;
 PVector v2;
-<<<<<<< HEAD
 Drop[] drops = new Drop[300];
-=======
-Drop[] drops = new Drop[10];
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
 
 
 
@@ -45,22 +41,14 @@ void setup()
 
   // Map one 64-LED strip to the center of the window
   opc.ledStrip(0, 64, width/2, height/10*9, width / 90.0, 0, false);
-<<<<<<< HEAD
   opc.ledStrip(64, 64, 206, height/10*5+14, width / 90.0, radians(120), true);
   opc.ledStrip(128, 64, 431, 275, width / 90.0, radians(60), true);
   background(0);
-=======
-  opc.ledStrip(64, 64, 206, height/10*5+14, width / 90.0, radians(120), false);
-  opc.ledStrip(128, 64, 431, 275, width / 90.0, radians(60), false);
-    background(0);
-
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
 }
 
 
 void draw()
 {
-
   // Run the tracking analysis
   tracker.track();
   // Show the image
@@ -108,42 +96,22 @@ void draw()
   // rectangles to narrow the rain
   // rect(0, 0, xMap, height);
   // rect(width-xMap, 0, width, height);
-<<<<<<< HEAD
   g.update();
 
   //TEST ELIPSE FOR LED STRIP PLACEMENT
   //fill(255,0,0);
   //ellipse(mouseX, mouseY, 200, 200);
-=======
-      g.update();
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
 
   getAverageColor();
 }
 
 
-<<<<<<< HEAD
 void getAverageColor() {
   tracker.display.loadPixels();
   int b = 0;
   for (int i=0; i<tracker.display.pixels.length; i++) {
     color c = tracker.display.pixels[i];
     b += c&0xFF;
-=======
-  // for loop to make all rain drops fall down and to show them.
-  for (int i = 0; i < drops.length; i++) {
-    drops[i].fall();
-    // if mouse is pressed, stroke colour changes
-    if (mousePressed) {
-      fill(rectAreaMap, 100, i*30);
-      noStroke();
-     } else {
-      fill(rectAreaMap, 100, i*30);
-      noStroke();
-    }
-    drops[i].show(7000/(rectAreaMap+20));
-    System.out.println("rectAreaMap: " + rectAreaMap);
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
   }
   b /= tracker.display.pixels.length;
    m = map(b, 138, 142, 0, 255);
@@ -167,7 +135,6 @@ void keyPressed() {
       println(tracker.getThreshold());
     }
   }
-<<<<<<< HEAD
 }
 
 void rain() {
@@ -190,6 +157,4 @@ void rain() {
   }
     drops[i].show(8000/(rectAreaMap+20));
   }
-=======
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
 }
