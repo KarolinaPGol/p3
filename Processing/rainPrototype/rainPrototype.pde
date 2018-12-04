@@ -10,7 +10,6 @@ float rectAreaMap;
 PVector v2;
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
 Drop[] drops = new Drop[300];
 =======
 Drop[] drops = new Drop[10];
@@ -18,9 +17,6 @@ Drop[] drops = new Drop[10];
 =======
 Drop[] drops = new Drop[90];
 >>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
-=======
-Drop[] drops = new Drop[10];
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
 
 
 
@@ -54,7 +50,6 @@ void setup()
   // Map one 64-LED strip to the center of the window
   opc.ledStrip(0, 64, width/2, height/10*9, width / 90.0, 0, false);
 <<<<<<< HEAD
-<<<<<<< HEAD
   opc.ledStrip(64, 64, 206, height/10*5+14, width / 90.0, radians(120), true);
   opc.ledStrip(128, 64, 431, 275, width / 90.0, radians(60), true);
 <<<<<<< HEAD
@@ -66,10 +61,6 @@ void setup()
 
 >>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
 =======
-=======
-  opc.ledStrip(64, 64, 206, height/10*5+14, width / 90.0, radians(120), false);
-  opc.ledStrip(128, 64, 431, 275, width / 90.0, radians(60), false);
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
     background(0);
 
 >>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
@@ -137,15 +128,12 @@ void draw()
 >>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
 =======
       g.update();
-<<<<<<< HEAD
       
       //TEST ELIPSE FOR LED STRIP PLACEMENT
       //fill(255,0,0);
       //ellipse(mouseX, mouseY, 200, 200);
 
 >>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
-=======
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
 
 }
 
@@ -168,7 +156,6 @@ void getAverageColor() {
     // if mouse is pressed, stroke colour changes
     if (mousePressed) {
 <<<<<<< HEAD
-<<<<<<< HEAD
       fill(rectAreaMap, 100, i*30);
       noStroke();
      } else {
@@ -179,12 +166,6 @@ void getAverageColor() {
      } else {
       fill(rectAreaMap, 100, i*2);
 >>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
-=======
-      fill(rectAreaMap, 100, i*30);
-      noStroke();
-     } else {
-      fill(rectAreaMap, 100, i*30);
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
       noStroke();
     }
     drops[i].show(7000/(rectAreaMap+20));
@@ -209,7 +190,6 @@ void keyPressed() {
       tracker.setThreshold(t);
     }
   }
-<<<<<<< HEAD
 <<<<<<< HEAD
 }
 <<<<<<< HEAD
@@ -239,6 +219,3 @@ void rain() {
 }
 =======
 >>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
-=======
-}
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.

@@ -29,7 +29,6 @@ class FlockingGame{
     noFill();
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
     stroke(204, 102, 0, 0); //Bounding box visibility, remove last digit to see it!
 =======
     stroke(204, 102, 0);
@@ -37,9 +36,6 @@ class FlockingGame{
 =======
     stroke(204, 102, 0); //Bounding box visibility, remove last digit to see it!
 >>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
-=======
-    stroke(204, 102, 0);
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
     x1= getMinX(birds);
     x2 = getMinY(birds);
     rectWidth= getMaxX(birds)-x1;
@@ -153,15 +149,12 @@ class Bird {
   void update(PVector inTar) {
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
     render();
 =======
 >>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
 =======
      render();
 >>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
-=======
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
     tar.set(inTar);
     //ai.update(pos, tar, neighbors);
     desiredHeading.set(ai.update(pos, tar, neighbors));
@@ -172,16 +165,12 @@ class Bird {
     pos.add(vel);
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
     render();
 >>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
 =======
    
 >>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
-=======
-    render();
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
   }
  
   int sign() {
@@ -199,7 +188,6 @@ class Bird {
   void render() {
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
     fill(0, 255, 0, 0); //boid here, change last digit to see the boid!
 =======
     fill(0,255,0);
@@ -207,9 +195,6 @@ class Bird {
 =======
     fill(0,255,0); //boid here, change last digit to see the boid!
 >>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
-=======
-    fill(0,255,0);
->>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
     float s = 1;
     noStroke();
     pushMatrix();
