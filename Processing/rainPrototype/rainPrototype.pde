@@ -7,16 +7,13 @@ PImage im;
 float xMap;
 float yMap;
 float rectAreaMap;
+  float m;
 PVector v2;
-<<<<<<< HEAD
 <<<<<<< HEAD
 Drop[] drops = new Drop[300];
 =======
 Drop[] drops = new Drop[10];
 >>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
-=======
-Drop[] drops = new Drop[90];
->>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
 
 
 
@@ -35,12 +32,11 @@ void setup()
   // for loop to make each index of array drops[] an instance of the Drop class 
   for (int i = 0; i < drops.length; i++) {
     drops[i] = new Drop(random(width));
-    
-    // setup flocking boid
-    
-      g = new FlockingGame(400); //creating 1000 birds
-  background(255);
 
+    // setup flocking boid
+
+    g = new FlockingGame(400); //creating 1000 birds
+    background(255);
   }
 
   // ********* FADECANDY SETUP*********
@@ -52,7 +48,6 @@ void setup()
 <<<<<<< HEAD
   opc.ledStrip(64, 64, 206, height/10*5+14, width / 90.0, radians(120), true);
   opc.ledStrip(128, 64, 431, 275, width / 90.0, radians(60), true);
-<<<<<<< HEAD
   background(0);
 =======
   opc.ledStrip(64, 64, 206, height/10*5+14, width / 90.0, radians(120), false);
@@ -60,10 +55,6 @@ void setup()
     background(0);
 
 >>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
-=======
-    background(0);
-
->>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
 }
 
 
@@ -73,6 +64,7 @@ void draw()
   // Run the tracking analysis
   tracker.track();
   // Show the image
+  tracker.display();
 
   // Let's draw the raw location
   PVector v1 = tracker.getPos();
@@ -96,7 +88,7 @@ void draw()
   // mapping mouseX and mouseY to other values
   yMap =  map(mouseY, height/4, height, 0, 350);
   xMap =  map(mouseX, 0, width, 0, height/2);
-    rectAreaMap =  map(g.rectArea, 50000, 200000, 0, 255);
+  rectAreaMap =  map(g.rectArea, 50000, 200000, 0, 255);
 
   // stroke and fill - fill follows the mouse mapped
   noStroke(); 
@@ -117,7 +109,6 @@ void draw()
   // rect(0, 0, xMap, height);
   // rect(width-xMap, 0, width, height);
 <<<<<<< HEAD
-<<<<<<< HEAD
   g.update();
 
   //TEST ELIPSE FOR LED STRIP PLACEMENT
@@ -126,20 +117,11 @@ void draw()
 =======
       g.update();
 >>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
-=======
-      g.update();
-      
-      //TEST ELIPSE FOR LED STRIP PLACEMENT
-      //fill(255,0,0);
-      //ellipse(mouseX, mouseY, 200, 200);
 
->>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
-
+  getAverageColor();
 }
 
-void rain() {
 
-<<<<<<< HEAD
 <<<<<<< HEAD
 void getAverageColor() {
   tracker.display.loadPixels();
@@ -148,51 +130,45 @@ void getAverageColor() {
     color c = tracker.display.pixels[i];
     b += c&0xFF;
 =======
-=======
->>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
   // for loop to make all rain drops fall down and to show them.
   for (int i = 0; i < drops.length; i++) {
     drops[i].fall();
     // if mouse is pressed, stroke colour changes
     if (mousePressed) {
-<<<<<<< HEAD
       fill(rectAreaMap, 100, i*30);
       noStroke();
      } else {
       fill(rectAreaMap, 100, i*30);
-=======
-      fill(rectAreaMap, 100, i*2);
-      noStroke();
-     } else {
-      fill(rectAreaMap, 100, i*2);
->>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
       noStroke();
     }
     drops[i].show(7000/(rectAreaMap+20));
     System.out.println("rectAreaMap: " + rectAreaMap);
-<<<<<<< HEAD
 >>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
-=======
->>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
   }
+  b /= tracker.display.pixels.length;
+   m = map(b, 138, 142, 0, 255);
+  println(m);
+  fill(m);
+  rect(0, 0, width, 30);
 }
-
-
-
+float getM(){
+return m;
+}
 void keyPressed() {
   int t = tracker.getThreshold();
   if (key == CODED) {
     if (keyCode == UP) {
       t+=5;
       tracker.setThreshold(t);
+      println(tracker.getThreshold());
     } else if (keyCode == DOWN) {
       t-=5;
       tracker.setThreshold(t);
+      println(tracker.getThreshold());
     }
   }
 <<<<<<< HEAD
 }
-<<<<<<< HEAD
 
 void rain() {
 
@@ -217,5 +193,3 @@ void rain() {
 =======
 >>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
 }
-=======
->>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
