@@ -1,36 +1,41 @@
-class FlockingGame {
+class FlockingGame{
   ArrayList birds;
   int num;
   int time;
   Target t;
   float x1, x2, rectWidth, rectHeight, rectArea, rectRatio;
   float minX=width, maxX=0, minY=height, maxY=0;
-
-  FlockingGame(int inNum) {
+  
+  FlockingGame(int inNum){
     num = inNum;
     t = new Target();
     birds = new ArrayList();
-    for (int i=0; i<num; i++) { //addin birds to array birds
+    for(int i=0; i<num; i++){ //addin birds to array birds
       birds.add(new Bird());
     }
   }
-  void update() {
+  void update(){
     time++;
     t.update();
-    for (int i = 0; i<birds.size(); i++) {
+    for(int i = 0; i<birds.size(); i++){
       Bird b = (Bird) birds.get(i);
       b.findNeighbors(birds);
       b.update(t.getPos());
       float d = b.pos.dist(t.pos);
+      
     }
-
-
+    
+   
     noFill();
+<<<<<<< HEAD
 <<<<<<< HEAD
     stroke(204, 102, 0, 0); //Bounding box visibility, remove last digit to see it!
 =======
     stroke(204, 102, 0);
 >>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
+=======
+    stroke(204, 102, 0); //Bounding box visibility, remove last digit to see it!
+>>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
     x1= getMinX(birds);
     x2 = getMinY(birds);
     rectWidth= getMaxX(birds)-x1;
@@ -38,55 +43,57 @@ class FlockingGame {
     rect(x1, x2, rectWidth, rectHeight);
     rectArea = rectWidth*rectHeight;
     rectRatio = rectWidth/rectHeight;
+    println("rect area: " + rectArea);
   }
   // Method for getting the maximum value
-  float getMaxX(ArrayList inputArray) {    
-    float maxValue = 0; 
-    for (int i=0; i < inputArray.size(); i++) { 
+   float getMaxX(ArrayList inputArray){    
+   float maxValue = 0; 
+    for(int i=0;i < inputArray.size();i++){ 
       Bird b = (Bird) birds.get(i);
-      if (b.pos.x > maxValue) { 
-        maxValue = b.pos.x;
-      }
+      if(b.pos.x > maxValue){ 
+         maxValue = b.pos.x; 
+      } 
     } 
-    return maxValue;
+    return maxValue; 
   }
-  float getMaxY(ArrayList inputArray) {    
-    float maxValue = 0; 
-    for (int i=0; i < inputArray.size(); i++) { 
+  float getMaxY(ArrayList inputArray){    
+   float maxValue = 0; 
+    for(int i=0;i < inputArray.size();i++){ 
       Bird b = (Bird) birds.get(i);
-      if (b.pos.y > maxValue) { 
-        maxValue = b.pos.y;
-      }
+      if(b.pos.y > maxValue){ 
+         maxValue = b.pos.y; 
+      } 
     } 
-    return maxValue;
+    return maxValue; 
   }
-
+ 
   // Method for getting the minimum value
-  float getMinX(ArrayList inputArray) { 
+  float getMinX(ArrayList inputArray){ 
     float minValue = width; 
-    for (int i=0; i<inputArray.size(); i++) { 
+    for(int i=0;i<inputArray.size();i++){ 
       Bird b = (Bird) birds.get(i);
-      if (b.pos.x < minValue) { 
-        minValue = b.pos.x;
-      }
+      if(b.pos.x < minValue){ 
+        minValue = b.pos.x; 
+      } 
     }
     return minValue;
-  } 
-
-  float getMinY(ArrayList inputArray) { 
+   } 
+    
+   float getMinY(ArrayList inputArray){ 
     float minValue = width; 
-    for (int i=0; i<inputArray.size(); i++) { 
+    for(int i=0;i<inputArray.size();i++){ 
       Bird b = (Bird) birds.get(i);
-      if (b.pos.y < minValue) { 
-        minValue = b.pos.y;
-      }
+      if(b.pos.y < minValue){ 
+        minValue = b.pos.y; 
+      } 
     } 
-    return minValue;
+    return minValue; 
   } 
-  void generate() {
+  void generate(){
+ 
   }
 }
-
+ 
 ///////////////////////////////////////////////////////////
 //CLASS BIRD
 ///////////////////////////////////////////////////////////
@@ -102,20 +109,20 @@ class Bird {
   float r;
   float maxforce;    // Maximum steering force
   float maxspeed;    // Maximum speed
-
+  
   Bird() {
     pos = new PVector();
     tar = new PVector();
-    pos.x = width/2;
-    pos.y = height/2;
+    pos.x = random(200, 500);
+    pos.y = random(200, 500);
     vel=PVector.random2D();
     vel.mult(3); //SPEED!
     desiredHeading = new PVector();
     ai = new BirdAI();
-    tsa = PI/5; //angle at which they turn, the larger this number the more over the place they will be
+    tsa = PI/20; //angle at which they turn, the larger this number the more over the place they will be
     seeDist = 50; //lower this if we thing bbox is too big but if its too low we might have lonely birds
     neighbors = new ArrayList();
-    maxspeed = 50;
+    maxspeed = 100;
     maxforce = 0.3;
   }
   ////////////////////////////////////////////////////////////
@@ -135,15 +142,19 @@ class Bird {
       }
     }
   }
-
+ 
   /////////////////////////////////////////////////////////////
   //step 2: take action
   /////////////////////////////////////////////////////////////
   void update(PVector inTar) {
 <<<<<<< HEAD
+<<<<<<< HEAD
     render();
 =======
 >>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
+=======
+     render();
+>>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
     tar.set(inTar);
     //ai.update(pos, tar, neighbors);
     desiredHeading.set(ai.update(pos, tar, neighbors));
@@ -153,29 +164,37 @@ class Bird {
     //if (pos.x>600){if (vel.x>0) vel.x*= -1;}
     pos.add(vel);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     render();
 >>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
+=======
+   
+>>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
   }
-
+ 
   int sign() {
     int a = -(int) Math.signum(vel.y*desiredHeading.x - vel.x*desiredHeading.y);
     return a;
   }
-
-  void collisions() {
+ 
+  void collisions(){
     if ((pos.x>600)&&(vel.x>0)) vel.x *=-1;
     if ((pos.y>600)&&(vel.y>0)) vel.y *=-1;
     if ((pos.x<0)&&(vel.x<0)) vel.x *=-1;
     if ((pos.y<0)&&(vel.y<0)) vel.y *=-1;
   }
-
+ 
   void render() {
+<<<<<<< HEAD
 <<<<<<< HEAD
     fill(0, 255, 0, 0); //boid here, change last digit to see the boid!
 =======
     fill(0,255,0);
 >>>>>>> parent of 5c9cba0... Fixed code for LED strips so it is mapped accordingly.
+=======
+    fill(0,255,0); //boid here, change last digit to see the boid!
+>>>>>>> parent of 0cb830c... tracking from above, rain fast, big bubbles yellow
     float s = 1;
     noStroke();
     pushMatrix();
@@ -188,7 +207,7 @@ class Bird {
     endShape(CLOSE);
     popMatrix();
   }
-  PVector seek(PVector target) {
+    PVector seek(PVector target) {
     PVector desired = PVector.sub(target, pos);  // A vector pointing from the position to the target
     // Scale to maximum speed
     desired.normalize();
@@ -203,8 +222,8 @@ class Bird {
     steer.limit(maxforce);  // Limit to maximum steering force
     return steer;
   }
-
-  // Separation
+  
+   // Separation
   // Method checks for nearby boids and steers away
   PVector separate (ArrayList<BirdAI> boids) {
     float desiredseparation = 10;
@@ -242,7 +261,7 @@ class Bird {
     }
     return steer;
   }
-  // Cohesion
+     // Cohesion
   // For the average position (i.e. center) of all nearby boids, calculate steering vector towards that position
   PVector cohesion (ArrayList<BirdAI> boids) {
     float neighbordist = 1;
@@ -258,29 +277,25 @@ class Bird {
     if (count > 0) {
       sum.div(count);
       return seek(sum);  // Steer towards the position
-    } else {
+    } 
+    else {
       return new PVector(0, 0);
     }
   }
 }
-
-class BirdAI {
+ 
+class BirdAI{
   ArrayList neighbors;
   Bird me;
-  PVector pos; 
-  PVector tar;
-  PVector avoidHeading; 
-  float avoidFactor;
-  PVector copyHeading; 
-  float copyFactor;
-  PVector centerHeading; 
-  float centerFactor;
-  PVector targetHeading; 
-  float targetFactor;
+  PVector pos; PVector tar;
+  PVector avoidHeading; float avoidFactor;
+  PVector copyHeading; float copyFactor;
+  PVector centerHeading; float centerFactor;
+  PVector targetHeading; float targetFactor;
   PVector desiredHeading;
   //Behaviour bhv;
-
-  BirdAI() {
+ 
+  BirdAI(){
     pos = new PVector();
     tar = new PVector();
     avoidHeading = new PVector();
@@ -290,7 +305,7 @@ class BirdAI {
     desiredHeading = new PVector();
     //bhv = new Behaviour();
   }
-  PVector update(PVector inPos, PVector inTar, ArrayList inNeighbors) {
+  PVector update(PVector inPos, PVector inTar, ArrayList inNeighbors){
     neighbors = inNeighbors;
     pos.set(inPos);
     tar.set(inTar);
@@ -311,13 +326,12 @@ class BirdAI {
     desiredHeading.add(targetHeading);
     return desiredHeading;
   }
-  PVector avoidV() {
+  PVector avoidV(){
     PVector aV = new PVector();
     PVector tow = new PVector();
-    for (int i = 0; i < neighbors.size(); i++) {
+    for(int i = 0; i < neighbors.size(); i++){
       Bird n = (Bird) neighbors.get(i);
-      tow.set(pos); 
-      tow.sub(n.pos);
+      tow.set(pos); tow.sub(n.pos);
       float d = tow.mag();
       tow.normalize();
       tow.mult(40/d); // Change to increase the distance between birds
@@ -326,21 +340,21 @@ class BirdAI {
     //aV.div((neighbors.size()+1)/2);
     return aV;
   }
-
-  PVector copyV() {
-    PVector cpV = new PVector(0, 0, 0);
-    for (int i = 0; i < neighbors.size(); i++) {
+ 
+  PVector copyV(){
+    PVector cpV = new PVector(0,0,0);
+    for(int i = 0; i < neighbors.size(); i++){
       Bird n = (Bird) neighbors.get(i);
       cpV.add(n.vel);
     }
     cpV.div(neighbors.size());
     return cpV;
   }
-
-  PVector centerV() {
-    PVector cnV = new PVector(0, 0, 0);
+ 
+  PVector centerV(){
+    PVector cnV = new PVector(0,0,0);
     float d = 0;
-    for (int i = 0; i < neighbors.size(); i++) {
+    for(int i = 0; i < neighbors.size(); i++){
       Bird b = (Bird) neighbors.get(i);
       d += pos.dist(b.pos);
       cnV.add(b.pos);
@@ -352,40 +366,41 @@ class BirdAI {
     //cnV.normalize();
     return cnV;
   }
-
-  PVector targetV() {
+ 
+  PVector targetV(){
     PVector tV = new PVector();
     tV.set(tar);
     tV.sub(pos);
     float d = pos.dist(tV);
-    d = pow((d/20), 2);
+    d = pow((d/20),2);
     tV.mult(d);
     tV.normalize();
     tV.mult(mouseCheck());
     return tV;
   }
-
-
-  int mouseCheck() {
-    if (getM()>180) return -1;
+ 
+ 
+  int mouseCheck(){
+    if (mousePressed) return -1;
     else return 1;
   }
 }
-
-class Target {
+ 
+class Target{
   PVector pos;
-  Target() {
-    pos = new PVector(300, 300, 0);
+  Target(){
+    pos = new PVector(300,300,0);
   }
-  void update() {
-    pos.x = width/2;
-    pos.y = height/2;
+  void update(){
+    pos.x = mouseX;
+    pos.y = mouseY;
     pos.z = 0;
     //show();
   }
-  PVector getPos() {
+  PVector getPos(){
     return pos;
   }
-  void show() {
+  void show(){
+ 
   }
 }
