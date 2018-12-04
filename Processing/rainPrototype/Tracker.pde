@@ -1,7 +1,7 @@
 class KinectTracker {
 
   // Depth threshold
-  int threshold = 840;
+  int threshold = 819;
 
   // Raw location
   PVector loc;
