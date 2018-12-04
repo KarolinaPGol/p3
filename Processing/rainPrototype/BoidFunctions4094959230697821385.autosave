@@ -27,7 +27,7 @@ class FlockingGame{
     
    
     noFill();
-    stroke(204, 102, 0, 0); //Bounding box visibility, remove last digit to see it!
+    stroke(204, 102, 0);
     x1= getMinX(birds);
     x2 = getMinY(birds);
     rectWidth= getMaxX(birds)-x1;
@@ -99,7 +99,6 @@ class Bird {
   ArrayList neighbors;
   float seeDist;
   float r;
-  float acceleration;
   float maxforce;    // Maximum steering force
   float maxspeed;    // Maximum speed
   
@@ -115,7 +114,7 @@ class Bird {
     tsa = PI/20; //angle at which they turn, the larger this number the more over the place they will be
     seeDist = 50; //lower this if we thing bbox is too big but if its too low we might have lonely birds
     neighbors = new ArrayList();
-    maxspeed = 150;
+    maxspeed = 100;
     maxforce = 0.3;
   }
   ////////////////////////////////////////////////////////////
@@ -140,7 +139,6 @@ class Bird {
   //step 2: take action
   /////////////////////////////////////////////////////////////
   void update(PVector inTar) {
-     render();
     tar.set(inTar);
     //ai.update(pos, tar, neighbors);
     desiredHeading.set(ai.update(pos, tar, neighbors));
@@ -149,7 +147,7 @@ class Bird {
     collisions();
     //if (pos.x>600){if (vel.x>0) vel.x*= -1;}
     pos.add(vel);
-   
+    render();
   }
  
   int sign() {
@@ -165,7 +163,7 @@ class Bird {
   }
  
   void render() {
-    fill(0,255,0); //boid here, change last digit to see the boid!
+    fill(0,255,0);
     float s = 1;
     noStroke();
     pushMatrix();
@@ -346,7 +344,7 @@ class BirdAI{
     d = pow((d/20),2);
     tV.mult(d);
     tV.normalize();
-    tV.mult(mouseCheck());
+    tV.mult(2*mouseCheck()); //KARO ADDED 2*
     return tV;
   }
  
