@@ -102,10 +102,10 @@ class KinectTracker {
           minValue = min(minValue, pix);
 
           maxValueX = max(maxValueX, x);
-          minValueX = min(maxValueX, x);
+          minValueX = min(minValueX, x);
 
           maxValueY = max(maxValueY, y);
-          minValueY = min(maxValueY, y);
+          minValueY = min(minValueY, y);
           
         } 
         
