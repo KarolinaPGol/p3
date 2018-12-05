@@ -5,6 +5,8 @@ FlockingGame g;
 OPC opc;
 float rectAreaMap;
 float m;
+float bBoxAreaMapped;
+
 Drop[] drops = new Drop[300];
 
 KinectTracker tracker;
@@ -26,6 +28,8 @@ void draw()
   rectAreaMap =  map(g.rectArea, 50000, 200000, 0, 255);
   rain();
   g.update();
-  getAverageColor();
+  showIntensityBox();
   kinectInfo();
+
+  bBoxAreaMapped = 0;
 }

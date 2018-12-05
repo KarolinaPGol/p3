@@ -4,17 +4,9 @@ void backgroundRect() {
   fill(0);
   rect(0, 0, width, height);
 }
-void getAverageColor() {
-  tracker.display.loadPixels();
-  int b = 0;
-  for (int i=0; i<tracker.display.pixels.length; i++) {
-    color c = tracker.display.pixels[i];
-    b += c&0xFF;
-  }
-  b /= tracker.display.pixels.length;
-  m = map(b, 130, 142, 0, 255);
-  println(m);
-  fill(m);
+void showIntensityBox() {
+ 
+  fill(bBoxAreaMapped);
   rect(0, 0, width, 30);
 }
 float getM() {
@@ -41,7 +33,7 @@ void rain() {
   for (int i = 0; i < drops.length; i++) {
     drops[i].fall();
     // if mouse is pressed, stroke colour changes
-    if (m>160) {
+    if (bBoxAreaMapped>160) { // CHANGE THIS VALUE
       //fill(random(255), 0, random(255));
       fill(255);
 

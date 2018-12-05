@@ -1,7 +1,9 @@
+
 class KinectTracker {
 
   // Depth threshold
-  int threshold = 810;
+  int threshold = 795;
+  int thresholdHead = 600;
 
   // Raw location
   PVector loc;
@@ -73,6 +75,12 @@ class KinectTracker {
 
   void display() {
     PImage img = kinect.getDepthImage();
+    float maxValue = 0;
+    float minValue = kinect.width*kinect.height ;
+    float maxValueX = 0;
+    float maxValueY = 0;
+    float minValueX = kinect.width;
+    float minValueY = kinect.height;
 
     // Being overly cautious here
     if (depth == null || img == null) return;
@@ -83,22 +91,66 @@ class KinectTracker {
     for (int x = 0; x < kinect.width; x++) {
       for (int y = 0; y < kinect.height; y++) {
 
-        int offset = x + y * kinect.width;
+        int offset = x + y * kinect.width; 
         // Raw depth
-        int rawDepth = depth[offset];
-        int pix = x + y * display.width;
+        int rawDepth = depth[offset]; 
+        int pix = x + y * display.width; //why is it y*width
         if (rawDepth < threshold) {
           // A blue color instead
-          display.pixels[pix] = color(0, 0, 255);
-        } else {
+          display.pixels[pix] = color(0, 0, 255); //set correct pixels to blue
+          
+          maxValue = max(maxValue, pix);
+          minValue = min(minValue, pix);
+
+          maxValueX = max(maxValueX, x);
+          minValueX = min(minValueX, x);
+
+          maxValueY = max(maxValueY, y);
+          minValueY = min(minValueY, y);
+          
+        } 
+        
+       /* if (thresholdHead>815 ) {
+          // A blue color instead
+          display.pixels[pix] = color(255, 0, 0); //set correct pixels to blue
+           if(pix > maxValue){
+             maxValue = pix;
+             maxValueX = x;
+             maxValueY = y;
+          }
+          
+          if(pix < minValue){
+            minValue = pix;
+            minValueX = x;
+            minValueY = y;
+          } 
+          
+           } */
+          
+ 
+          else {
           display.pixels[pix] = img.pixels[offset];
         }
+
+       // if(display.pixels[pix] == color(0, 0, 255));
       }
     }
     display.updatePixels();
 
     // Draw the image
     image(display, 0, 0);
+    
+    noFill();
+    stroke(255,0,0);
+    rect(minValueX, minValueY, maxValueX-minValueX, maxValueY-minValueY);
+    
+    float bBoxArea = (minValueX+maxValueX)*(minValueY+maxValueY);
+     bBoxAreaMapped = map(bBoxArea,100,2500,0,255); // CHANGE THESE VALUES
+  }
+  
+  void bBoxArea(){
+    
+  
   }
 
   int getThreshold() {
@@ -108,4 +160,13 @@ class KinectTracker {
   void setThreshold(int t) {
     threshold =  t;
   }
+  
+  int getThresholdHead() {
+    return thresholdHead;
+  }
+
+  void setThresholdHead(int t) {
+    thresholdHead =  t;
+  }
+  
 }
