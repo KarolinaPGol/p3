@@ -93,22 +93,19 @@ class KinectTracker {
         int offset = x + y * kinect.width; 
         // Raw depth
         int rawDepth = depth[offset]; 
-        int pix = x + y * display.width; //ok
+        int pix = x + y * display.width; //why is it y*width
         if (rawDepth < threshold) {
           // A blue color instead
           display.pixels[pix] = color(0, 0, 255); //set correct pixels to blue
           
-          if(pix > maxValue){
-             maxValue = pix;
-             maxValueX = x;
-             maxValueY = y;
-          }
-          
-          if(pix < minValue){
-            minValue = pix;
-            minValueX = x;
-            minValueY = y;
-          }
+          maxValue = max(maxValue, pix);
+          minValue = min(minValue, pix);
+
+          maxValueX = max(maxValueX, x);
+          minValueX = min(maxValueX, x);
+
+          maxValueY = max(maxValueY, y);
+          minValueY = min(maxValueY, y);
           
         } 
         
