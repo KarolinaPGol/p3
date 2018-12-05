@@ -2,6 +2,7 @@ class KinectTracker {
 
   // Depth threshold
   int threshold = 795;
+  int thresholdHead = 600;
 
   // Raw location
   PVector loc;
@@ -86,7 +87,7 @@ class KinectTracker {
     // Going to rewrite the depth image to show which pixels are in threshold
     // A lot of this is redundant, but this is just for demonstration purposes
     display.loadPixels();
-    for (int x = 0; x < kinect.width; x++) { //goes through all the window
+    for (int x = 0; x < kinect.width; x++) {
       for (int y = 0; y < kinect.height; y++) {
 
         int offset = x + y * kinect.width; 
@@ -109,7 +110,27 @@ class KinectTracker {
             minValueY = y;
           }
           
-        } else {
+        } 
+        
+       /* if (thresholdHead>815 ) {
+          // A blue color instead
+          display.pixels[pix] = color(255, 0, 0); //set correct pixels to blue
+           if(pix > maxValue){
+             maxValue = pix;
+             maxValueX = x;
+             maxValueY = y;
+          }
+          
+          if(pix < minValue){
+            minValue = pix;
+            minValueX = x;
+            minValueY = y;
+          } 
+          
+           } */
+          
+ 
+          else {
           display.pixels[pix] = img.pixels[offset];
         }
 
@@ -120,6 +141,9 @@ class KinectTracker {
 
     // Draw the image
     image(display, 0, 0);
+    
+    noFill();
+    stroke(255,0,0);
     rect(minValueX, minValueY, maxValueX-minValueX, maxValueY-minValueY);
   }
 
@@ -130,4 +154,13 @@ class KinectTracker {
   void setThreshold(int t) {
     threshold =  t;
   }
+  
+  int getThresholdHead() {
+    return thresholdHead;
+  }
+
+  void setThresholdHead(int t) {
+    thresholdHead =  t;
+  }
+  
 }

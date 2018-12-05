@@ -1,7 +1,7 @@
 class KinectTracker {
 
   // Depth threshold
-  int threshold = 819;
+  int threshold = 810;
 
   // Raw location
   PVector loc;
@@ -93,7 +93,6 @@ class KinectTracker {
         } else {
           display.pixels[pix] = img.pixels[offset];
         }
-
       }
     }
     display.updatePixels();

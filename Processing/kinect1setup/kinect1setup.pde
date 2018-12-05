@@ -14,6 +14,8 @@ void setup() {
 
 void draw() {
   background(0);
+  fill(0);
+  rect(0,0,width,height);
   // Run the tracking analysis
   tracker.track();
   // Show the image
@@ -32,11 +34,12 @@ void draw() {
 
   // Display some info
   int t = tracker.getThreshold();
+  int t2 = tracker.getThresholdHead();
   fill(0);
   text("threshold: " + t + "    " +  "framerate: " + int(frameRate) + "    " + 
-    "UP increase threshold, DOWN decrease threshold", 10, 500);
+    "UP increase threshold, DOWN decrease threshold" + "T2 =" + t2, 10, 500);
 
-getAverageColor();
+  getAverageColor();
 }
 void getAverageColor() {
   tracker.display.loadPixels();
@@ -47,10 +50,9 @@ void getAverageColor() {
   }
   b /= tracker.display.pixels.length;
   float m = map(b, 134, 138, 0, 255);
-//println(m);
+  //println(m);
   fill(m);
-  rect(0,0,width,30);
-  
+  rect(0, 0, width, 30);
 }
 void keyPressed() {
   int t = tracker.getThreshold();
