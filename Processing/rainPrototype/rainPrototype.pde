@@ -8,9 +8,8 @@ PImage im;
 float xMap;
 float yMap;
 float rectAreaMap;
-  float m;
 PVector v2;
-Drop[] drops = new Drop[300];
+Drop[] drops = new Drop[90];
 
 
 
@@ -29,11 +28,12 @@ void setup()
   // for loop to make each index of array drops[] an instance of the Drop class 
   for (int i = 0; i < drops.length; i++) {
     drops[i] = new Drop(random(width));
-
+    
     // setup flocking boid
+    
+      g = new FlockingGame(400); //creating 1000 birds
+  background(255);
 
-    g = new FlockingGame(400); //creating 1000 birds
-    background(255);
   }
 
   // ********* FADECANDY SETUP*********
@@ -44,7 +44,8 @@ void setup()
   opc.ledStrip(0, 64, width/2, height/10*9, width / 90.0, 0, false);
   opc.ledStrip(64, 64, 206, height/10*5+14, width / 90.0, radians(120), true);
   opc.ledStrip(128, 64, 431, 275, width / 90.0, radians(60), true);
-  background(0);
+    background(0);
+
 }
 
 
@@ -53,7 +54,6 @@ void draw()
   // Run the tracking analysis
   tracker.track();
   // Show the image
-  tracker.display();
 
   // Let's draw the raw location
   PVector v1 = tracker.getPos();
@@ -77,7 +77,7 @@ void draw()
   // mapping mouseX and mouseY to other values
   yMap =  map(mouseY, height/4, height, 0, 350);
   xMap =  map(mouseX, 0, width, 0, height/2);
-  rectAreaMap =  map(g.rectArea, 50000, 200000, 0, 255);
+    rectAreaMap =  map(g.rectArea, 50000, 200000, 0, 255);
 
   // stroke and fill - fill follows the mouse mapped
   noStroke(); 
@@ -97,45 +97,13 @@ void draw()
   // rectangles to narrow the rain
   // rect(0, 0, xMap, height);
   // rect(width-xMap, 0, width, height);
-  g.update();
-
-  //TEST ELIPSE FOR LED STRIP PLACEMENT
-  //fill(255,0,0);
-  //ellipse(mouseX, mouseY, 200, 200);
-
-  getAverageColor();
-}
+      g.update();
+      
+      //TEST ELIPSE FOR LED STRIP PLACEMENT
+      //fill(255,0,0);
+      //ellipse(mouseX, mouseY, 200, 200);
 
 
-void getAverageColor() {
-  tracker.display.loadPixels();
-  int b = 0;
-  for (int i=0; i<tracker.display.pixels.length; i++) {
-    color c = tracker.display.pixels[i];
-    b += c&0xFF;
-  }
-  b /= tracker.display.pixels.length;
-   m = map(b, 138, 142, 0, 255);
-  println(m);
-  fill(m);
-  rect(0, 0, width, 30);
-}
-float getM(){
-return m;
-}
-void keyPressed() {
-  int t = tracker.getThreshold();
-  if (key == CODED) {
-    if (keyCode == UP) {
-      t+=5;
-      tracker.setThreshold(t);
-      println(tracker.getThreshold());
-    } else if (keyCode == DOWN) {
-      t-=5;
-      tracker.setThreshold(t);
-      println(tracker.getThreshold());
-    }
-  }
 }
 
 void rain() {
@@ -144,18 +112,29 @@ void rain() {
   for (int i = 0; i < drops.length; i++) {
     drops[i].fall();
     // if mouse is pressed, stroke colour changes
-    if (m>160) {
-      //fill(random(255), 0, random(255));
-            fill(255);
-
+    if (mousePressed) {
+      fill(rectAreaMap, 100, i*2);
       noStroke();
-    } else {
-      // fill(255,0,map(i,0,drops.length,0,255));
-      fill(0,0,255);
-      stroke(0,255,255);
-      strokeWeight(20);
-
+     } else {
+      fill(rectAreaMap, 100, i*2);
+      noStroke();
+    }
+    drops[i].show(7000/(rectAreaMap+20));
+    System.out.println("rectAreaMap: " + rectAreaMap);
   }
-    drops[i].show(8000/(rectAreaMap+20));
+}
+
+
+
+void keyPressed() {
+  int t = tracker.getThreshold();
+  if (key == CODED) {
+    if (keyCode == UP) {
+      t+=5;
+      tracker.setThreshold(t);
+    } else if (keyCode == DOWN) {
+      t-=5;
+      tracker.setThreshold(t);
+    }
   }
 }
