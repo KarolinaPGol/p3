@@ -1,10 +1,11 @@
-
 class KinectTracker {
 
   // Depth threshold
-  int threshold = 795;
+   int threshold;
+   
   int thresholdHead = 600;
-
+  float area;
+  float areaMapped;
   // Raw location
   PVector loc;
 
@@ -98,7 +99,7 @@ class KinectTracker {
         if (rawDepth < threshold) {
           // A blue color instead
           display.pixels[pix] = color(0, 0, 255); //set correct pixels to blue
-          
+
           maxValue = max(maxValue, pix);
           minValue = min(minValue, pix);
 
@@ -107,50 +108,46 @@ class KinectTracker {
 
           maxValueY = max(maxValueY, y);
           minValueY = min(minValueY, y);
-          
         } 
-        
-       /* if (thresholdHead>815 ) {
-          // A blue color instead
-          display.pixels[pix] = color(255, 0, 0); //set correct pixels to blue
-           if(pix > maxValue){
-             maxValue = pix;
-             maxValueX = x;
-             maxValueY = y;
-          }
-          
-          if(pix < minValue){
-            minValue = pix;
-            minValueX = x;
-            minValueY = y;
-          } 
-          
-           } */
-          
- 
-          else {
+
+        /* if (thresholdHead>815 ) {
+         // A blue color instead
+         display.pixels[pix] = color(255, 0, 0); //set correct pixels to blue
+         if(pix > maxValue){
+         maxValue = pix;
+         maxValueX = x;
+         maxValueY = y;
+         }
+         
+         if(pix < minValue){
+         minValue = pix;
+         minValueX = x;
+         minValueY = y;
+         } 
+         
+         } */
+
+
+        else {
           display.pixels[pix] = img.pixels[offset];
         }
 
-       // if(display.pixels[pix] == color(0, 0, 255));
+        // if(display.pixels[pix] == color(0, 0, 255));
       }
     }
     display.updatePixels();
 
     // Draw the image
     image(display, 0, 0);
-    
+
     noFill();
-    stroke(255,0,0);
+    stroke(255, 0, 0);
     rect(minValueX, minValueY, maxValueX-minValueX, maxValueY-minValueY);
-    
-    float bBoxArea = (minValueX+maxValueX)*(minValueY+maxValueY);
-     bBoxAreaMapped = map(bBoxArea,100,2500,0,255); // CHANGE THESE VALUES
+    area = (maxValueX-minValueX) * (maxValueY-minValueY);
   }
-  
-  void bBoxArea(){
-    
-  
+  float areaMapped(float min, float max) {
+    areaMapped = map(area, min, max, 1, 255);
+    return areaMapped;
   }
 
   int getThreshold() {
@@ -160,7 +157,7 @@ class KinectTracker {
   void setThreshold(int t) {
     threshold =  t;
   }
-  
+
   int getThresholdHead() {
     return thresholdHead;
   }
@@ -168,5 +165,4 @@ class KinectTracker {
   void setThresholdHead(int t) {
     thresholdHead =  t;
   }
-  
 }

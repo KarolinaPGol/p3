@@ -1,35 +1,59 @@
 import org.openkinect.freenect.*;
 import org.openkinect.processing.*;
-
-FlockingGame g;
 OPC opc;
-float rectAreaMap;
 float m;
 float bBoxAreaMapped;
+long lastTime = 0;
+boolean whatev;
 
-Drop[] drops = new Drop[300];
+Drop[] drops = new Drop[150];
 
 KinectTracker tracker;
 Kinect kinect;
 
 void setup()
 {
-  size(640, 520);
+  size(1400, 520, P3D);
   kinectSetup();
   FCsetup();
-  instBoids();
+  instanceDrop();
+  lastTime = millis();
 }
 
 
 void draw()
 {
-  kinectTracker();
-  backgroundRect();
-  rectAreaMap =  map(g.rectArea, 50000, 200000, 0, 255);
-  rain();
-  g.update();
-  showIntensityBox();
-  kinectInfo();
+  // CALIBRATING THE KINECT TO THE HEIGHT OF THE PERSON.
+  // GET PERSON TO RAISE ARMS IN FRONT OF THEM. SET THRESHOLD HERE
+  tracker.threshold = 800;
 
-  bBoxAreaMapped = 0;
+  // CALIBRATING THE KINECT TO "WIDENESS" OF THE PERSON" 
+  //(MIN, MAX)
+  println("Raw Area: "+ tracker.area);
+  println("AreaMapped:" + tracker.areaMapped(70000, 250000) );
+
+
+
+
+  backgroundRect();
+
+
+  // THRESHOLD OF AREA. RUN EFFECTS FROM HERE. 0-255.
+ 
+  if (tracker.areaMapped > 100) {
+
+System.out.println( millis()-lastTime);
+    if (millis()-lastTime>5000) {     
+      redDrops();
+           
+    }else {
+    lastTime = millis();
+    
+    redBubble();
+  }
+  } 
+
+  strokeWeight(2);
+  kinectTracker();
+  kinectInfo();
 }
