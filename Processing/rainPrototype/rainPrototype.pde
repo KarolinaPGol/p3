@@ -41,16 +41,17 @@ void draw()
   // THRESHOLD OF AREA. RUN EFFECTS FROM HERE. 0-255.
  
   if (tracker.areaMapped > 100) {
-
-System.out.println( millis()-lastTime);
-    if (millis()-lastTime>5000) {     
-      redDrops();
-           
-    }else {
-    lastTime = millis();
-    
+   
     redBubble();
-  }
+ //System.out.println( millis()-lastTime);
+ 
+    if (millis()-lastTime>5000) {
+      backgroundRect();
+      redDrops();         
+    }
+  }else {
+    lastTime = millis();
+    backgroundRect();
   } 
 
   strokeWeight(2);
