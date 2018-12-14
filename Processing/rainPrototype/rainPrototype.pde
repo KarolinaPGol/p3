@@ -51,7 +51,7 @@ void draw()
     }
   }else {
     lastTime = millis();
-    backgroundRect();
+    backgroundRect(); //SIMON:maybe this is not needed try with and without
   } 
 
   strokeWeight(2);
