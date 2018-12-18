@@ -9,7 +9,7 @@ class Drop {
   Drop(float x) {
     this.x = x;
     y  = random(-500, -50);
-    z  = random(0, 20);
+    z  = random(0, 10);
     len = map(z, 0, 20, 10, 300);
     yspeed  = map(z, 0, 20, 1, 10);
   }

@@ -6,7 +6,7 @@ float bBoxAreaMapped;
 long lastTime = 0;
 boolean whatev;
 
-Drop[] drops = new Drop[150];
+Drop[] drops = new Drop[400];
 
 KinectTracker tracker;
 Kinect kinect;
@@ -18,6 +18,7 @@ void setup()
   FCsetup();
   instanceDrop();
   lastTime = millis();
+  background(0);
 }
 
 
@@ -25,7 +26,7 @@ void draw()
 {
   // CALIBRATING THE KINECT TO THE HEIGHT OF THE PERSON.
   // GET PERSON TO RAISE ARMS IN FRONT OF THEM. SET THRESHOLD HERE
-  tracker.threshold = 800;
+  tracker.threshold = 850;
 
   // CALIBRATING THE KINECT TO "WIDENESS" OF THE PERSON" 
   //(MIN, MAX)
@@ -34,25 +35,28 @@ void draw()
 
 
 
+  if (tracker.areaMapped <= 50) {
 
-  backgroundRect();
-
+    fill(0, 220, 255);
+    turquoiseBubble();
+  }
 
   // THRESHOLD OF AREA. RUN EFFECTS FROM HERE. 0-255.
- 
-  if (tracker.areaMapped > 100) {
-   
-    redBubble();
- //System.out.println( millis()-lastTime);
- 
-    if (millis()-lastTime>5000) {
+
+  if (tracker.areaMapped > 50) {
+    backgroundRect();
+    redDrops();
+
+
+    //System.out.println( millis()-lastTime);
+    if (millis()-lastTime>2000) {
       backgroundRect();
-      redDrops();         
+      helocuptMulti();
     }
-  }else {
+  } else {
     lastTime = millis();
-    backgroundRect(); //SIMON:maybe this is not needed try with and without
-  } 
+    // backgroundRect(); /fill:maybe this is not needed try with and without
+  }  
 
   strokeWeight(2);
   kinectTracker();
