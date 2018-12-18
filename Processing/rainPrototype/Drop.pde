@@ -1,4 +1,8 @@
-
+/*
+ * The code was inspired by Daniel Shiffman's cod
+ *
+ * https://thecodingtrain.com/CodingChallenges/004-purplerain.html?fbclid=IwAR1NUTJ6Bl5Lo4WOcN-7Dkt2nzmz8n7cBipH0tBI9srjf35qyt-MMVgYuuw
+ */
 class Drop {
   float x;
   float y;

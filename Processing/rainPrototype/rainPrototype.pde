@@ -1,3 +1,12 @@
+/* The code inspired by the following codes:
+ * Daniel Shiffman:
+ * https://thecodingtrain.com/CodingChallenges/004-purplerain.html?fbclid=IwAR1NUTJ6Bl5Lo4WOcN-7Dkt2nzmz8n7cBipH0tBI9srjf35qyt-MMVgYuuw
+ * https://github.com/shiffman/OpenKinect-for-Processing/tree/master/OpenKinect-Processing/examples/Kinectv1/AverageP ointT racking
+ *
+ * Micah Elizabeth Scott:
+ * https://github.com/scanlime/fadecandy/blob/master/examples/processing/triangle16attractor/OP C.pde
+ */
+
 import org.openkinect.freenect.*;
 import org.openkinect.processing.*;
 OPC opc;

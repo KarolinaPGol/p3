@@ -4,6 +4,9 @@
  *
  * Micah Elizabeth Scott, 2013
  * This file is released into the public domain.
+ * 
+ * Taken from:
+ * Code was retrieved from https://github.com/scanlime/fadecandy/blob/master/examples/processing/triangle16attractor/OP C.pde
  */
 
 import java.net.*;

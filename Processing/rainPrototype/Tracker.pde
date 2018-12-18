@@ -1,3 +1,11 @@
+/*
+ * The code is based on Daniel Shiffman's code
+ *
+ * Taken from:
+ * https://github.com/shiffman/OpenKinect-for-Processing/tree/master/OpenKinect-Processing/examples/Kinectv1/AverageP ointT racking
+ *
+ */
+
 class KinectTracker {
 
   // Depth threshold
