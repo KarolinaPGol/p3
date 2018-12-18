@@ -3,7 +3,9 @@
 void backgroundRect() {
   fill(0,0,0);
   rect(0, 0, width, height);
+  stroke(0,0,0);
 }
+
 float getM() {
   return m;
 }
@@ -50,7 +52,7 @@ void redDrops() {
     drops[i].fall();
     // if mouse is pressed, stroke colour changes
     //fill(random(255), 0, random(255));
-    fill(255, i, i);
+    fill(255, 0, 0);
     drops[i].show(8000/500);
     noStroke();
     // fill(255,0,map(i,0,drops.length,0,255));
@@ -133,8 +135,6 @@ void turquoiseBubble() {
 
   for (int i = 0; i < drops.length; i++) {
     drops[i].fall();
-
-    fill(0, 200, 255);
     stroke(0, 0, 255);
     strokeWeight(5);
     drops[i].show(8000/40);
@@ -142,10 +142,10 @@ void turquoiseBubble() {
 }
 
 void helocupt() {
-  stroke(255);
+  stroke(255,180,0);
   strokeWeight(30);
-  int cx = width/2;
-  int cy = height/2;
+  int cx = width/2+320;
+  int cy = height/2+65;
 
   int a = 450; // major axis of ellipse
   int b = 250; // minor axis of ellipse
@@ -164,9 +164,6 @@ void helocupt() {
 void redBubble() {
   for (int i = 0; i < drops.length; i++) {
     drops[i].fall();
-
-    fill(255, 0, 0);
-    stroke(255, 150, 0);
     strokeWeight(2);
     drops[i].show(400);
   }
@@ -196,15 +193,15 @@ void helocuptReverse() {
 }
 
 void helocuptMulti() {
-  stroke(255);
-  strokeWeight(5);
-  int cx = width/2;
-  int cy = height/2;
+  stroke(255,100,0);
+  strokeWeight(12);
+  int cx = width/2+320;
+  int cy = height/2+60;
 
   int a = 450; // major axis of ellipse
   int b = 250; // minor axis of ellipse
 
-  float t = millis()/1000f; //increase to slow down the movement
+  float t = millis()/500f; //increase to slow down the movement
 
 
   for (int i = 1; i <= 12; i++) {
