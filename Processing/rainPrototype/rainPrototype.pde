@@ -43,7 +43,7 @@ void draw()
   if (tracker.areaMapped > 100) {
    
     redBubble();
- //System.out.println( millis()-lastTime);
+   //System.out.println( millis()-lastTime);
  
     if (millis()-lastTime>5000) {
       backgroundRect();
